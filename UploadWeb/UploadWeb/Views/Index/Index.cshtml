@@ -1,0 +1,21 @@
+﻿@{
+	ViewBag.Title = "IUS // ORBU";
+}
+
+<div id="rte" contenteditable="true"></div>
+<div id="image"></div>
+<script type="text/javascript">
+    document.getElementById("rte").focus();
+    document.getElementById("rte").onpaste = function() {
+        setTimeout(function() {
+            var imageData = $("#rte img").attr("src");
+            $("#rte img").remove();
+
+            var image = document.createElement("img");
+            image.src = imageData;
+
+            $("#image").children().remove();
+            document.getElementById("image").appendChild(image);
+        }, 0);
+    };
+</script>
