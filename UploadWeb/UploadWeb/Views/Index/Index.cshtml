@@ -4,9 +4,9 @@
 
 <div id="url"></div>
 <div id="form">
-<div class="comment">// currently working in Firefox only</div>
-<div id="rte" contenteditable="true"></div>
-<div id="image"></div>
+	<div class="comment">// currently works in Firefox only</div>
+	<div id="rte" contenteditable="true"></div>
+	<div id="image"></div>
 </div>
 <script type="text/javascript">
     document.getElementById("rte").focus();
@@ -29,7 +29,7 @@
                 success: function(result) {
                     $("<div class=\"url\">" + result + "</div>").appendTo("#url");
                     $("<img src=\"" + result + "\" alt=\"uploaded image\" />").appendTo("#url");
-                    
+
                     $("#form").hide();
                 }
             });
