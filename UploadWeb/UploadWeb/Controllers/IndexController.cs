@@ -1,7 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Text;
-using System.Web;
 using System.Web.Mvc;
 
 namespace UploadWeb.Controllers
@@ -54,12 +52,12 @@ namespace UploadWeb.Controllers
 			byte[] rawData = Convert.FromBase64String(base64Data);
 			string filename = Path.GetFileNameWithoutExtension(Path.GetRandomFileName()) + extension;
 
-			using (FileStream fs = new FileStream(Path.Combine(Server.MapPath("~/Images"), filename), FileMode.CreateNew))
+			using (FileStream fs = new FileStream(Path.Combine(Server.MapPath("~/-"), filename), FileMode.CreateNew))
 			{
 				fs.Write(rawData, 0, rawData.Length);
 			}
 
-			ViewBag.ImageUrl = Request.Url.Scheme + "://" + Request.Url.Host + Url.Content("~/Images/" + filename);
+			ViewBag.ImageUrl = Request.Url.Scheme + "://" + Request.Url.Host + Url.Content("~/-/" + filename);
 
 			return View();
 		}
