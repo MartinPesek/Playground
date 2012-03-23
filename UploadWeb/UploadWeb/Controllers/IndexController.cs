@@ -4,12 +4,12 @@ using System.Web.Mvc;
 
 namespace UploadWeb.Controllers
 {
-    public class IndexController : Controller
-    {
-        public ActionResult Index()
-        {
-            return View();
-        }
+	public class IndexController : Controller
+	{
+		public ActionResult Index()
+		{
+			return View();
+		}
 
 		[HttpPost]
 		public ActionResult SaveImage(string data)
@@ -60,7 +60,7 @@ namespace UploadWeb.Controllers
 			byte[] rawData = Convert.FromBase64String(base64Data);
 			string filename = Path.GetFileNameWithoutExtension(Path.GetRandomFileName()) + extension;
 
-			using (FileStream fs = new FileStream(Path.Combine(Server.MapPath("~/-"), filename), FileMode.CreateNew))
+			using (var fs = new FileStream(Path.Combine(Server.MapPath("~/-"), filename), FileMode.CreateNew))
 			{
 				fs.Write(rawData, 0, rawData.Length);
 			}
@@ -69,5 +69,5 @@ namespace UploadWeb.Controllers
 
 			return View();
 		}
-    }
+	}
 }
