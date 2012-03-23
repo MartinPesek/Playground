@@ -39,6 +39,14 @@ namespace UploadWeb.Controllers
 					case "image/png":
 						extension = ".png";
 						break;
+
+					case "image/jpeg":
+						extension = ".jpg";
+						break;
+
+					case "image/gif":
+						extension = ".gif";
+						break;
 				}
 			}
 
