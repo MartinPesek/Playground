@@ -82,3 +82,14 @@ h1 span
 {
     min-height: 1.5em;
 }
+
+#main .comment
+{
+    color: #7d9b7d;
+}
+
+#main .url
+{
+    font-size: 22pt;
+    padding-bottom: 1em;
+}
