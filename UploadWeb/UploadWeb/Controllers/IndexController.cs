@@ -14,6 +14,9 @@ namespace UploadWeb.Controllers
 		[HttpPost]
 		public ActionResult SaveImage(string data)
 		{
+			if (data == null)
+				return View();
+
 			string[] mimeTypeBase64 = data.Split(new[] { ';' });
 
 			string base64Data = null;
@@ -52,7 +55,7 @@ namespace UploadWeb.Controllers
 
 			// unable to parse the data, do nothing
 			if (string.IsNullOrEmpty(base64Data) || string.IsNullOrEmpty(extension))
-				return View("Index");
+				return View();
 
 			// TODO: error/exception handling
 			// TODO: this code sucks... Proof of concept though -- improve!

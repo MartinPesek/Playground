@@ -4,35 +4,71 @@
 
 <div id="url"></div>
 <div id="form">
-	<div class="comment">// currently works in Firefox only</div>
+	<div class="comment">// currently works in Firefox and Chrome only</div>
 	<div id="rte" contenteditable="true"></div>
 	<div id="image"></div>
 </div>
 <script type="text/javascript">
-    document.getElementById("rte").focus();
-    document.getElementById("rte").onpaste = function() {
-        setTimeout(function() {
-            var imageData = $("#rte img").attr("src");
+    function UploadImage(data) {
+        if (data == null) {
+            console.log("No data loaded from Chrome, trying Firefox way...");
+            data = $("#rte img").attr("src");
             $("#rte img").remove();
+        }
 
-            var image = document.createElement("img");
-            image.src = imageData;
+        if (data == null) {
+            console.log("No data loaded!");
+            return;
+        }
 
-            $("#image").children().remove();
-            document.getElementById("image").appendChild(image);
+        var image = document.createElement("img");
+        image.src = data;
 
-            $.ajax({
-                url: '@Url.Action("SaveImage")',
-                type: 'POST',
-                contentType: 'application/json',
-                data: JSON.stringify({ data: imageData }),
-                success: function(result) {
-                    $("<div class=\"url\">" + result + "</div>").appendTo("#url");
-                    $("<img src=\"" + result + "\" alt=\"uploaded image\" />").appendTo("#url");
+        $("#image").children().remove();
+        document.getElementById("image").appendChild(image);
 
-                    $("#form").hide();
+        $.ajax({
+            url: '@Url.Action("SaveImage")',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({ data: data }),
+            success: function(result) {
+                if (result == "") {
+                    return;
                 }
-            });
-        }, 0);
+
+                $("<div class=\"url\">" + result + "</div>").appendTo("#url");
+                $("<img src=\"" + result + "\" alt=\"uploaded image\" />").appendTo("#url");
+
+                $("#form").hide();
+            }
+        });
+    }
+
+    document.getElementById("rte").focus();
+    document.getElementById("rte").onpaste = function(e) {
+        var imageData;
+
+        if (e && e.clipboardData && e.clipboardData.items.length > 0) {
+            var item = e.clipboardData.items[0];
+            if (item.type != "image/png" && item.type != "image/jpeg" && item.type != "image/gif") {
+                console.log("Not supported type: " + item.type);
+                return;
+            }
+
+            var fr = new FileReader();
+
+            fr.onload = function(fre) {
+                imageData = fre.target.result;
+                console.log("Data loaded from Chrome.");
+                UploadImage(imageData);
+            };
+
+            fr.readAsDataURL(item.getAsFile());
+        } else {
+            setTimeout(function() {
+                UploadImage(null);
+            }, 0);
+        }
     };
 </script>
